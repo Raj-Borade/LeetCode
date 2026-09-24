@@ -33,41 +33,36 @@
 
 //  Morris Traversal
 
-
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
 
         List<Integer> ans = new ArrayList<>();
+        TreeNode curr = root;
 
-        while (root != null) {
+        while (curr != null) {
 
-            // No left subtree
-            if (root.left == null) {
-                ans.add(root.val);
-                root = root.right;
-            }
+            if (curr.left != null) {
 
-            // Left subtree exists
-            else {
-                TreeNode curr = root.left;
+                TreeNode pred = curr.left;
 
-                // Find inorder predecessor
-                while (curr.right != null && curr.right != root) {
+                while (pred.right != null && pred.right != curr) {
+                    pred = pred.right;
+                }
+
+                if (pred.right == null) {
+                    pred.right = curr;
+                    curr = curr.left;
+                } 
+                else {
+                    pred.right = null;
+                    ans.add(curr.val);
                     curr = curr.right;
                 }
 
-                // First visit: create thread
-                if (curr.right == null) {
-                    curr.right = root;
-                    root = root.left;
-                }
-
-                // Second visit: remove thread and process root
-                else {
-                    curr.right = null;
-                    ans.add(root.val);
-                    root = root.right;
-                }
+            } 
+            else {
+                ans.add(curr.val);
+                curr = curr.right;
             }
         }
 
