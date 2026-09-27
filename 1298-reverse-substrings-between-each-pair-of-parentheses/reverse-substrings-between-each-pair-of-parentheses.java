@@ -31,3 +31,5 @@ class Solution {
 // Then attach the saved outer string from the stack before the reversed substring.
 // After processing everything, curr contains the answer without parentheses.
 
+// TC: O(N²) worst case
+// SC: O(N)
