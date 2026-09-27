@@ -33,3 +33,6 @@ class Solution {
 
 // TC: O(N²) worst case
 // SC: O(N)
+
+
+// The O(N²) comes from repeated reverse() / insert() operations in deeply nested cases.
