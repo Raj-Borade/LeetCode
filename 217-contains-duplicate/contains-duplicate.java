@@ -6,7 +6,7 @@ class Solution {
         for (int ele : nums) {
 
             if (!set.add(ele))
-                return true;
+                return true;    // set.size()
         }
 
         return false;
