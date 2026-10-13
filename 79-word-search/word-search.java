@@ -1,31 +1,36 @@
+
 class Solution {
     public boolean exist(char[][] board, String word) {
         int m = board.length, n = board[0].length;
-        boolean[][] visited = new boolean[m][n];
 
-        for (int i = 0; i < m; i++) 
+        for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
-                if (path(i, j, 0, board, word, visited))
+                if (path(i, j, m-1, n-1, new boolean[m][n], board, "", word))
                     return true;
 
-            return false;
+        return false;
     }
 
-    private boolean path(int r, int c, int idx, char[][] board, String word, boolean[][] visited) {
-        if (idx == word.length()) return true;
-
-        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length || visited[r][c] || board[r][c] != word.charAt(idx))
+    private boolean path(int r, int c, int er, int ec,
+                         boolean[][] visited, char[][] board,
+                         String s, String word) {
+        if (r < 0 || c < 0 || r > er || c > ec ||
+            visited[r][c] || s.length() >= word.length() ||
+            board[r][c] != word.charAt(s.length()))
             return false;
 
-            visited[r][c] = true;
+        s += board[r][c];
 
-            boolean found = path(r, c - 1, idx + 1, board, word, visited) ||
-            path(r - 1, c, idx + 1, board, word, visited) ||
-            path(r, c + 1, idx + 1, board, word, visited) ||
-            path(r + 1, c, idx + 1, board, word, visited);
+        if (s.equals(word)) return true;
 
+        visited[r][c] = true;
 
-            visited[r][c] = false;
-            return found;
+        boolean found = path(r, c-1, er, ec, visited, board, s, word) ||
+                        path(r-1, c, er, ec, visited, board, s, word) ||
+                        path(r, c+1, er, ec, visited, board, s, word) ||
+                        path(r+1, c, er, ec, visited, board, s, word);
+
+        visited[r][c] = false;
+        return found;
     }
 }
